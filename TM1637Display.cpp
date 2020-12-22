@@ -256,3 +256,23 @@ uint8_t TM1637Display::encodeDigit(uint8_t digit)
 {
 	return digitToSegment[digit & 0x0f];
 }
+
+
+void TM1637Display::showTime(uint16_t hhmm, bool Colon, bool leading_zero) {
+
+  uint8_t digits[4];
+
+  for (int i = 3; i >= 0; --i) {
+    uint8_t digit = hhmm % 10;
+    if (i == 0 && digit == 0 && leading_zero == false)
+      digits[0] = 0;
+    else
+      digits[i] = encodeDigit(digit);
+    hhmm /= 10;
+  }
+
+  if (Colon)
+    showDots(0x40, digits);
+
+  setSegments(digits, 4, 0);
+}
