@@ -19,14 +19,63 @@
 
 #include <inttypes.h>
 
-#define SEG_A   0b00000001
-#define SEG_B   0b00000010
-#define SEG_C   0b00000100
-#define SEG_D   0b00001000
-#define SEG_E   0b00010000
-#define SEG_F   0b00100000
-#define SEG_G   0b01000000
-#define SEG_DP  0b10000000
+//      A
+//     ---
+//  F |   | B
+//     -G-
+//  E |   | C
+//     ---
+//      D
+// XGFE DCBA
+
+#define SEG_A		0b00000001
+#define SEG_B		0b00000010
+#define SEG_C		0b00000100
+#define SEG_D		0b00001000
+#define SEG_E		0b00010000
+#define SEG_F		0b00100000
+#define SEG_G		0b01000000
+#define SEG_DP		0b10000000
+
+#define Chr_0		SEG_A + SEG_B + SEG_C + SEG_D + SEG_E + SEG_F
+#define Chr_1		SEG_B + SEG_C
+#define Chr_2		SEG_A + SEG_B + SEG_D + SEG_E + SEG_G
+#define Chr_3		SEG_A + SEG_B + SEG_C + SEG_D + SEG_G
+#define Chr_4		SEG_B + SEG_C + SEG_F + SEG_G
+#define Chr_5		SEG_A + SEG_C + SEG_D + SEG_F + SEG_G
+#define Chr_6		SEG_A + SEG_C + SEG_D + SEG_E + SEG_F + SEG_G 
+#define Chr_7		SEG_A + SEG_B + SEG_C
+#define Chr_8		SEG_A + SEG_B + SEG_C + SEG_D + SEG_E + SEG_F + SEG_G
+#define Chr_9		SEG_A + SEG_B + SEG_C + SEG_D + SEG_F + SEG_G
+#define Chr_A		SEG_A + SEG_B + SEG_C + SEG_E + SEG_F + SEG_G
+#define Chr_B		SEG_A + SEG_B + SEG_C + SEG_D + SEG_E + SEG_F + SEG_G
+#define Chr_b		SEG_C + SEG_D + SEG_E + SEG_F + SEG_G
+#define Chr_C		SEG_A + SEG_D + SEG_E + SEG_F
+#define Chr_c		SEG_D + SEG_E + SEG_G
+#define Chr_d		SEG_B + SEG_C + SEG_D + SEG_E + SEG_G
+#define Chr_E		SEG_A + SEG_D + SEG_E + SEG_F + SEG_G
+#define Chr_F		SEG_A + SEG_E + SEG_F + SEG_G
+#define Chr_G		SEG_A + SEG_C + SEG_D + SEG_E + SEG_F
+#define Chr_H		SEG_B + SEG_C + SEG_E + SEG_F + SEG_G
+#define Chr_h		SEG_C + SEG_E + SEG_F + SEG_G
+#define Chr_I		SEG_B + SEG_C
+#define Chr_i		SEG_C
+#define Chr_J		SEG_B + SEG_C + SEG_D + SEG_E
+#define Chr_L		SEG_D + SEG_E + SEG_F
+#define Chr_l		SEG_E + SEG_F
+#define Chr_N		SEG_A + SEG_B + SEG_C + SEG_E + SEG_F
+#define Chr_n		SEG_C + SEG_E + SEG_G
+#define Chr_O		SEG_A + SEG_B + SEG_C + SEG_D + SEG_E + SEG_F
+#define Chr_o		SEG_C + SEG_D + SEG_E + SEG_G
+#define Chr_P		SEG_A + SEG_B + SEG_E + SEG_F + SEG_G
+#define Chr_R		SEG_A + SEG_E + SEG_F
+#define Chr_r		SEG_E + SEG_G
+#define Chr_S		SEG_A + SEG_C + SEG_D + SEG_F + SEG_G
+#define Chr_t		SEG_D + SEG_E + SEG_F + SEG_G
+#define Chr_U		SEG_B + SEG_C + SEG_D + SEG_E + SEG_F
+#define Chr_u		SEG_C + SEG_D + SEG_E
+#define Chr_y		SEG_B + SEG_C + SEG_D + SEG_F + SEG_G
+#define Chr_DEGREE	SEG_A + SEG_B + SEG_F + SEG_G
 
 #define DEFAULT_BIT_DELAY  100
 
@@ -141,6 +190,13 @@ public:
   //! @return A code representing the 7 segment image of the digit (LSB - segment A;
   //!         bit 6 - segment G; bit 7 - always zero)
   uint8_t encodeDigit(uint8_t digit);
+  
+  //! Display a Time number, with dot control
+  //!
+  //! @param num Time number to be shown
+  //! @param Colon enable.
+  //! @param leading_zero When true, first digit zero are displayed. Otherwise digit are blank
+  void showTime(uint16_t hhmm, bool Colon = false, bool leading_zero = false);
 
 protected:
    void bitDelay();
